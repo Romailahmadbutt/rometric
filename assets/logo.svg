@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" fill="none">
+  <title>Rometric application logo</title>
+  <defs>
+    <!-- Primary UI Blue Gradient matching the Rometric app theme -->
+    <linearGradient id="rometric-blue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6" />
+      <stop offset="100%" stop-color="#1D4ED8" />
+    </linearGradient>
+    <!-- Dark Slate for the structural headphone frame -->
+    <linearGradient id="rometric-slate" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#334155" />
+      <stop offset="100%" stop-color="#1E293B" />
+    </linearGradient>
+  </defs>
+
+  <!-- Optional App Icon Badge Background (Remove this <rect> if you want a transparent mark for your top bar) -->
+  <rect x="8" y="8" width="240" height="240" rx="56" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="4" />
+
+  <!-- Headphone Arch (Right-leaning structural arc) -->
+  <path d="M 66 118 A 66 66 0 0 1 194 128 L 194 156" stroke="url(#rometric-slate)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Right Headphone Earcup -->
+  <rect x="182" y="132" width="14" height="44" rx="7" fill="url(#rometric-slate)" />
+  <path d="M 202 138 C 210 142 210 166 202 170" stroke="url(#rometric-slate)" stroke-width="8" stroke-linecap="round" />
+
+  <!-- EQ Waveform forming the 'R' stem & loop -->
+  <path d="M 42 136 L 60 136 L 74 108 L 92 156 L 108 92 L 122 132" stroke="url(#rometric-blue)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- 'R' Bowl & Diagonal Leg -->
+  <path d="M 108 92 L 134 92 C 154 92 162 104 162 116 C 162 128 152 136 134 136 L 124 136 L 160 172" stroke="url(#rometric-slate)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round" />
+
+  <!-- Calibration Curve Nodes (Blue dots matching the EQ graph) -->
+  <circle cx="60" cy="136" r="7" fill="#2563EB" stroke="#F8FAFC" stroke-width="2.5" />
+  <circle cx="108" cy="92" r="7" fill="#2563EB" stroke="#F8FAFC" stroke-width="2.5" />
+  <circle cx="158" cy="116" r="7" fill="#2563EB" stroke="#F8FAFC" stroke-width="2.5" />
+
+  <!-- 5-Band Parametric EQ Sliders underneath -->
+  <g stroke="#2563EB" stroke-width="6" stroke-linecap="round">
+    <!-- Band 1 -->
+    <line x1="88" y1="184" x2="88" y2="218" opacity="0.35" />
+    <line x1="88" y1="198" x2="88" y2="218" />
+    <circle cx="88" cy="198" r="6" fill="#2563EB" stroke="none" />
+
+    <!-- Band 2 -->
+    <line x1="108" y1="184" x2="108" y2="218" opacity="0.35" />
+    <line x1="108" y1="190" x2="108" y2="218" />
+    <circle cx="108" cy="190" r="6" fill="#2563EB" stroke="none" />
+
+    <!-- Band 3 -->
+    <line x1="128" y1="184" x2="128" y2="218" opacity="0.35" />
+    <line x1="128" y1="204" x2="128" y2="218" />
+    <circle cx="128" cy="204" r="6" fill="#2563EB" stroke="none" />
+
+    <!-- Band 4 -->
+    <line x1="148" y1="184" x2="148" y2="218" opacity="0.35" />
+    <line x1="148" y1="194" x2="148" y2="218" />
+    <circle cx="148" cy="194" r="6" fill="#2563EB" stroke="none" />
+
+    <!-- Band 5 -->
+    <line x1="168" y1="184" x2="168" y2="218" opacity="0.35" />
+    <line x1="168" y1="201" x2="168" y2="218" />
+    <circle cx="168" cy="201" r="6" fill="#2563EB" stroke="none" />
+  </g>
+</svg>

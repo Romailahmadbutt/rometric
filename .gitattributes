@@ -1,0 +1,10 @@
+# Normalize text to LF in the repository and the working tree so Windows and
+# CI builds see identical sources.
+* text=auto eol=lf
+
+# Binary assets must never be converted.
+*.png  binary
+*.ico  binary
+*.bin  binary
+*.bin.z binary
+*.z    binary

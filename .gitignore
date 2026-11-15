@@ -1,0 +1,14 @@
+/target
+**/*.rs.bk
+*.exe
+*.pdb
+
+# Python QA helpers
+__pycache__/
+*.pyc
+
+# Local editor / OS noise
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
