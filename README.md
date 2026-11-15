@@ -1,5 +1,9 @@
 # Rometric
 
+[![Latest release](https://img.shields.io/github/v/release/Romailahmadbutt/rometric?color=2ea44f&label=download)](https://github.com/Romailahmadbutt/rometric/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+![Platform: Windows](https://img.shields.io/badge/platform-Windows%2010%2F11-0078D6)
+
 A native Windows equalizer built from a decompilation study of the Android app
 **Wavelet** (`com.pittvandewitt.wavelet` 26.05). It carries over the parts that
 make sense on a desktop: the full AutoEQ profile database, the 11-band
@@ -187,6 +191,9 @@ user's Run key and does not require administrator rights.
 ---
 
 ## Building
+
+Rust is only needed to build from source. Prebuilt binaries are attached to
+[releases](https://github.com/Romailahmadbutt/rometric/releases/latest).
 
 ### On Windows (native, recommended)
 
