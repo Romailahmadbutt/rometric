@@ -141,6 +141,27 @@ not permission to substitute placeholder components or invent passing evidence.
   Import/Export file-picker interaction were not exercised against user data;
   preset schema and the shared overwrite/import guard have automated coverage.
 
+## Visual refresh — bento modular dashboard
+
+After the functional work, the user asked for a modern UI and chose a **bento /
+modular dashboard** across the whole app, with a bundled font family. The
+previous light neumorphic identity was deliberately replaced; no audio,
+preset, routing or persistence behavior changed.
+
+| Change | Implementation | Verification |
+|---|---|---|
+| Neutral bento surfaces | `theme.rs` palette now uses a neutral canvas, opaque white tiles, hairline borders and one soft downward shadow; `paint_inset_with` is contrast-aware for the dark display | Twelve framebuffer captures at four client sizes × three egui scales |
+| Module hierarchy | Titled tiles gained a hairline header rule; uppercase eyebrows label the spectrum region; type scale and weights use Inter SemiBold | Native UIA tree and visual capture review |
+| Bundled typography | `assets/fonts/` contains Inter Regular/SemiBold and JetBrains Mono (SIL OFL 1.1 with licences); `FontSet` is embedded via `include_bytes!` and installed before the first frame | 89 tests pass with production font metrics in headless geometry tests; strict Clippy clean |
+| Spectrum display | The former near-black slab became a rounded navy instrument tile with decade grid lines, keeping the real FFT dots and absolute hover dBFS | Image review at 1600×900, 1280×720 and 150% scaling |
+
+Focused searches through the `ui-ux-pro-max` catalog supported Minimalism/Swiss
+(high-contrast typography, grid rhythm, visible focus), Bento grids (16–24 px
+radii, subtle shadows, varied tile hierarchy) and dark instrument surfaces for
+the spectrum. Its landing-page "Hero + CTA" pattern was deliberately **not**
+applied — it does not describe a desktop audio tool. Responsive navigation and
+the eleven-fader geometry checks still pass at all captured sizes.
+
 ## Delivery self-evaluation
 
 Summary: **4.2/5** — requested implementation and verification are delivered;

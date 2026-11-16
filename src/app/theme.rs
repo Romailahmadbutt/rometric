@@ -1,4 +1,4 @@
-//! Light neumorphic design system for Signal Bench.
+//! Light bento design system for Signal Bench.
 //!
 //! Everything here is pure painting plus small custom widgets. No widget in
 //! this module owns application state; callers pass in the same `f32`/`bool`
@@ -31,20 +31,20 @@ use rometric::analysis::{peak_dbfs, SPECTRUM_BANDS, SPECTRUM_FLOOR_DB};
 // Palette
 // ---------------------------------------------------------------------------
 
-pub const BG: Color32 = Color32::from_rgb(0xE8, 0xED, 0xF8);
-pub const CARD: Color32 = Color32::from_rgb(0xED, 0xF1, 0xFA);
-pub const CARD_HOVER: Color32 = Color32::from_rgb(0xF4, 0xF7, 0xFE);
-pub const INSET: Color32 = Color32::from_rgb(0xE1, 0xE7, 0xF4);
-pub const GRAPH: Color32 = Color32::from_rgb(0xE9, 0xEE, 0xF9);
-pub const BLUE: Color32 = Color32::from_rgb(0x34, 0x78, 0xF6);
-pub const BLUE_DEEP: Color32 = Color32::from_rgb(0x1E, 0x5E, 0xDB);
-pub const BLUE_LIGHT: Color32 = Color32::from_rgb(0x65, 0xA5, 0xFF);
-pub const BLUE_SOFT: Color32 = Color32::from_rgb(0xD9, 0xE6, 0xFF);
-pub const INK: Color32 = Color32::from_rgb(0x17, 0x2B, 0x55);
-/// Secondary text. About 4.5:1 against `CARD`.
-pub const MUTED: Color32 = Color32::from_rgb(0x5F, 0x6E, 0x8C);
-/// Hints and placeholders. About 3:1 against `CARD`; do not use for essential text.
-pub const FAINT: Color32 = Color32::from_rgb(0x7F, 0x8D, 0xA8);
+pub const BG: Color32 = Color32::from_rgb(0xF4, 0xF5, 0xF8);
+pub const CARD: Color32 = Color32::WHITE;
+pub const CARD_HOVER: Color32 = Color32::from_rgb(0xFA, 0xFB, 0xFD);
+pub const INSET: Color32 = Color32::from_rgb(0xF2, 0xF4, 0xF8);
+pub const GRAPH: Color32 = Color32::from_rgb(0xFA, 0xFB, 0xFE);
+pub const BLUE: Color32 = Color32::from_rgb(0x2F, 0x6B, 0xEE);
+pub const BLUE_DEEP: Color32 = Color32::from_rgb(0x1E, 0x55, 0xC9);
+pub const BLUE_LIGHT: Color32 = Color32::from_rgb(0x6A, 0x9B, 0xFF);
+pub const BLUE_SOFT: Color32 = Color32::from_rgb(0xE7, 0xEF, 0xFF);
+pub const INK: Color32 = Color32::from_rgb(0x11, 0x18, 0x27);
+/// Secondary text. About 7:1 against `CARD`.
+pub const MUTED: Color32 = Color32::from_rgb(0x47, 0x54, 0x67);
+/// Hints and placeholders. About 4.6:1 against `CARD`.
+pub const FAINT: Color32 = Color32::from_rgb(0x66, 0x70, 0x85);
 /// Bright orange for icons and meter segments. Too light for small text.
 pub const WARN: Color32 = Color32::from_rgb(0xFF, 0x94, 0x1F);
 /// Orange that is readable as text on `CARD` (about 4.7:1).
@@ -54,17 +54,16 @@ pub const DANGER: Color32 = Color32::from_rgb(0xE5, 0x48, 0x4D);
 pub const OK: Color32 = Color32::from_rgb(0x22, 0xB5, 0x73);
 pub const WHITE: Color32 = Color32::WHITE;
 
-pub const BORDER: Color32 = Color32::from_rgba_premultiplied(178, 178, 178, 178);
-pub const HAIRLINE: Color32 = Color32::from_rgba_premultiplied(2, 4, 7, 22);
-pub const GRID: Color32 = Color32::from_rgba_premultiplied(2, 3, 7, 20);
-pub const GRID_STRONG: Color32 = Color32::from_rgba_premultiplied(4, 8, 15, 46);
-pub const INNER_DARK: Color32 = Color32::from_rgba_premultiplied(45, 51, 63, 96);
-pub const INNER_LIGHT: Color32 = Color32::from_rgba_premultiplied(190, 190, 190, 190);
+pub const BORDER: Color32 = Color32::from_rgb(0xE3, 0xE7, 0xEE);
+pub const HAIRLINE: Color32 = Color32::from_rgb(0xEA, 0xED, 0xF2);
+pub const GRID: Color32 = Color32::from_rgb(0xED, 0xF0, 0xF5);
+pub const GRID_STRONG: Color32 = Color32::from_rgb(0xDD, 0xE3, 0xEC);
+pub const INNER_DARK: Color32 = Color32::from_rgb(0xD3, 0xD9, 0xE2);
 /// Keyboard focus ring (BLUE at ~43% alpha).
 pub const FOCUS: Color32 = Color32::from_rgba_premultiplied(22, 52, 106, 110);
 
 pub const CARD_RADIUS: f32 = 18.0;
-pub const BUTTON_RADIUS: f32 = 11.0;
+pub const BUTTON_RADIUS: f32 = 10.0;
 
 /// Tick colour used on faders and bipolar sliders.
 const TICK: Color32 = Color32::from_rgba_premultiplied(2, 4, 8, 60);
@@ -136,26 +135,29 @@ fn field_focus(painter: &egui::Painter, rect: Rect, radius: f32) {
 static SEMIBOLD_READY: AtomicBool = AtomicBool::new(false);
 const SEMIBOLD_NAME: &str = "semibold";
 
-/// Font files to embed. Example (files placed in `assets/fonts/`):
-///
-/// ```ignore
-/// theme::install_fonts(&cc.egui_ctx, theme::FontSet {
-///     regular: include_bytes!("../assets/fonts/Inter-Regular.ttf"),
-///     semibold: include_bytes!("../assets/fonts/Inter-SemiBold.ttf"),
-///     mono: None,
-/// });
-/// ```
-#[allow(dead_code)] // Optional embedding API; preserve existing font support.
+/// Font files embedded into the binary. See `assets/fonts/README.md` for
+/// licence and provenance.
 pub struct FontSet {
     pub regular: &'static [u8],
     pub semibold: &'static [u8],
     pub mono: Option<&'static [u8]>,
 }
 
+/// Inter for interface copy, JetBrains Mono for numeric readouts. Both are
+/// bundled under the SIL Open Font License; no runtime file access is needed.
+pub fn bundled_fonts() -> FontSet {
+    FontSet {
+        regular: include_bytes!("../../assets/fonts/Inter-Regular.ttf"),
+        semibold: include_bytes!("../../assets/fonts/Inter-SemiBold.ttf"),
+        mono: Some(include_bytes!(
+            "../../assets/fonts/JetBrainsMono-Variable.ttf"
+        )),
+    }
+}
+
 /// Install the UI fonts. Call once at startup (for example in the eframe
-/// creation closure) before the first frame is drawn. Optional: without it
-/// the theme falls back to egui's built-in fonts.
-#[allow(dead_code)]
+/// creation closure) before the first frame is drawn. Without it the theme
+/// falls back to egui's built-in fonts, which is useful for headless tests.
 pub fn install_fonts(ctx: &egui::Context, fonts: FontSet) {
     let mut defs = egui::FontDefinitions::default();
     defs.font_data.insert(
@@ -271,16 +273,15 @@ pub fn install(ctx: &egui::Context, reduced_motion: bool) {
     style.spacing.scroll.bar_width = 6.0;
     style.spacing.scroll.floating = true;
     style.animation_time = if reduced_motion { 0.0 } else { 0.12 };
-    style.text_styles.insert(
-        TextStyle::Heading,
-        FontId::new(22.0, FontFamily::Proportional),
-    );
     style
         .text_styles
-        .insert(TextStyle::Body, FontId::new(14.0, FontFamily::Proportional));
+        .insert(TextStyle::Heading, FontId::new(20.0, semibold()));
+    style
+        .text_styles
+        .insert(TextStyle::Body, FontId::new(13.0, FontFamily::Proportional));
     style.text_styles.insert(
         TextStyle::Button,
-        FontId::new(14.0, FontFamily::Proportional),
+        FontId::new(12.5, FontFamily::Proportional),
     );
     style.text_styles.insert(
         TextStyle::Small,
@@ -288,7 +289,7 @@ pub fn install(ctx: &egui::Context, reduced_motion: bool) {
     );
     style.text_styles.insert(
         TextStyle::Monospace,
-        FontId::new(12.5, FontFamily::Monospace),
+        FontId::new(12.0, FontFamily::Monospace),
     );
     ctx.set_style(style);
 }
@@ -333,32 +334,23 @@ fn blur_rect(rect: Rect, rounding: f32, offset: Vec2, blur: f32, color: Color32)
     )
 }
 
-/// Raised neumorphic surface. Shadow size scales with the element so small
-/// controls get tight shadows and large cards get soft, wide ones.
-/// `fade` (0..=1) fades the whole surface out, for cross-fades.
+/// A bento tile: a flat, opaque surface with a hairline edge and one soft
+/// downward shadow. No dual light/dark extrusion — the grid and type now carry
+/// the hierarchy. `fade` (0..=1) fades the whole surface out, for cross-fades.
 fn raised_shape_fade(rect: Rect, radius: f32, fill: Color32, lift: f32, fade: f32) -> Shape {
     let fade = fade.clamp(0.0, 1.0);
     let scale = (rect.width().min(rect.height()) / 56.0).clamp(0.7, 1.0);
-    let soft = (0.5 + lift * 0.5) * scale;
-    let t = ((lift - 0.55) / 0.45).clamp(0.0, 1.0);
-    let light_alpha = ((40.0 + 32.0 * t) * fade) as u8;
-    let dark_alpha = ((42.0 + 20.0 * t) * fade) as u8;
-    let blur_light = (12.0 * scale).max(8.0);
-    let blur_dark = (15.0 * scale).max(10.0);
+    let lift = lift.clamp(0.0, 1.0);
+    let alpha = ((9.0 + 15.0 * lift) * fade) as u8;
+    let blur = (8.0 + 13.0 * lift) * scale;
+    let offset = 1.0 + 4.0 * lift;
     Shape::Vec(vec![
         blur_rect(
             rect,
             radius,
-            Vec2::new(-4.0 * soft, -4.0 * soft),
-            blur_light,
-            Color32::from_rgba_unmultiplied(255, 255, 255, light_alpha),
-        ),
-        blur_rect(
-            rect,
-            radius,
-            Vec2::new(6.0 * soft, 6.0 * soft),
-            blur_dark,
-            Color32::from_rgba_unmultiplied(156, 174, 207, dark_alpha),
+            Vec2::new(0.0, offset),
+            blur,
+            Color32::from_rgba_unmultiplied(18, 32, 62, alpha),
         ),
         Shape::Rect(egui::epaint::RectShape::new(
             rect,
@@ -404,34 +396,15 @@ pub fn paint_inset(painter: &egui::Painter, rect: Rect, radius: f32) {
 
 pub fn paint_inset_with(painter: &egui::Painter, rect: Rect, radius: f32, fill: Color32) {
     painter.rect_filled(rect, radius, fill);
-    let clipped = painter.with_clip_rect(rect);
-    // Soft dark edge, biased to the top-left.
-    let dark = egui::epaint::RectShape {
-        rect: rect.translate(Vec2::new(2.0, 2.5)).shrink(0.5),
-        rounding: Rounding::same(radius),
-        fill: Color32::TRANSPARENT,
-        stroke: Stroke::new(1.6_f32, INNER_DARK),
-        blur_width: 7.0,
-        fill_texture_id: Default::default(),
-        uv: Rect::ZERO,
+    // Dark instrument displays need a light hairline; light recessed fields
+    // need a dark one. Same helper, contrast-aware edge.
+    let light_surface = fill.r() as u16 + fill.g() as u16 + fill.b() as u16 > 240;
+    let edge = if light_surface {
+        INNER_DARK
+    } else {
+        Color32::from_white_alpha(20)
     };
-    clipped.add(Shape::Rect(dark));
-    // Soft light edge, biased to the bottom-right.
-    let light = egui::epaint::RectShape {
-        rect: rect.translate(Vec2::new(-2.0, -2.5)).shrink(0.5),
-        rounding: Rounding::same(radius),
-        fill: Color32::TRANSPARENT,
-        stroke: Stroke::new(1.4_f32, INNER_LIGHT),
-        blur_width: 6.0,
-        fill_texture_id: Default::default(),
-        uv: Rect::ZERO,
-    };
-    clipped.add(Shape::Rect(light));
-    painter.rect_stroke(
-        rect.shrink(0.5),
-        radius,
-        Stroke::new(1.0_f32, Color32::from_rgba_unmultiplied(255, 255, 255, 150)),
-    );
+    painter.rect_stroke(rect.shrink(0.5), radius, Stroke::new(1.0_f32, edge));
 }
 
 // ---------------------------------------------------------------------------
@@ -637,14 +610,30 @@ pub fn card_at<R>(
     inner.inner
 }
 
-/// A titled section. Sits one step below a top-level card.
+/// A titled bento tile. Sits one step below a top-level card. A hairline under
+/// the header gives each module its own clear region without another shadow.
 pub fn section_card<R>(ui: &mut Ui, icon: Icon, title: &str, add: impl FnOnce(&mut Ui) -> R) -> R {
     card_at(ui, Elevation::Mid, 16.0, Margin::same(10.0), |ui| {
         ui.spacing_mut().interact_size.y = 24.0;
         section_title(ui, icon, title);
-        ui.add_space(6.0);
+        ui.add_space(5.0);
+        let (line, _) =
+            ui.allocate_exact_size(Vec2::new(ui.available_width(), 1.0), Sense::hover());
+        ui.painter().rect_filled(line, 0.5, HAIRLINE);
+        ui.add_space(7.0);
         add(ui)
     })
+}
+
+/// Small uppercase caption for instrument-like regions.
+pub fn eyebrow(ui: &mut Ui, text: &str) {
+    ui.label(
+        RichText::new(text.to_uppercase())
+            .size(10.0)
+            .strong()
+            .family(semibold())
+            .color(FAINT),
+    );
 }
 
 pub fn section_title(ui: &mut Ui, icon: Icon, title: &str) {
@@ -1981,18 +1970,28 @@ pub fn spectrum(
     let (response, painter) =
         ui.allocate_painter(Vec2::new(ui.available_width(), height), Sense::hover());
     let rect = response.rect;
-    paint_inset_with(&painter, rect, 11.0, Color32::from_rgb(0x23, 0x1F, 0x20));
+    // A recessed instrument display inside the white workbench tile: deep navy
+    // reads as a deliberate display surface rather than an unrelated black box.
+    paint_inset_with(&painter, rect, 12.0, Color32::from_rgb(0x11, 0x1B, 0x30));
     let plot = Rect::from_min_max(
         rect.min + Vec2::new(12.0, 8.0),
         rect.max - Vec2::new(12.0, 20.0),
     );
     let center_y = plot.center().y;
+    for frequency in [100.0_f32, 1000.0, 10000.0] {
+        let t = (frequency / 20.0).ln() / 1000f32.ln();
+        let x = plot.left() + t * plot.width();
+        painter.line_segment(
+            [Pos2::new(x, plot.top()), Pos2::new(x, plot.bottom())],
+            Stroke::new(0.5_f32, Color32::from_white_alpha(11)),
+        );
+    }
     painter.line_segment(
         [
             Pos2::new(plot.left(), center_y),
             Pos2::new(plot.right(), center_y),
         ],
-        Stroke::new(0.5_f32, Color32::from_white_alpha(22)),
+        Stroke::new(0.5_f32, Color32::from_white_alpha(24)),
     );
     let palette = [
         Color32::from_rgb(30, 172, 246),

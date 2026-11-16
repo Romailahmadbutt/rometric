@@ -107,12 +107,15 @@ Search narrows inside the current arrangement and opens matching folders.
 
 ### Signal Bench interface
 
-The desktop interface uses a light Soft UI design system: softly raised cards,
-recessed inputs and graph surfaces, blue gradient active states, inset fader
-tracks, rounded controls and restrained dual shadows. The layout remains
-responsive: profiles stay beside the equalizer where space permits, while the
-inspector scrolls independently and compact navigation replaces crowded columns
-in narrow or highly scaled windows.
+The desktop interface is a light **bento / modular dashboard**: opaque white
+tiles on a neutral canvas, hairline module headers, one soft shadow per tile,
+8 px gutters, and a single blue accent. Numeric readouts use JetBrains Mono and
+interface copy uses Inter; both are embedded under the SIL OFL (see
+`assets/fonts/README.md`). The spectrum is a recessed navy instrument display
+inside the existing workbench tile. The layout remains responsive: profiles stay
+beside the equalizer where space permits, while the inspector scrolls
+independently and compact navigation replaces crowded columns in narrow or
+highly scaled windows.
 
 The interface is organized around the complete audio path rather than
 individual settings pages:
@@ -234,10 +237,11 @@ src/autoeq.rs   embedded profile format, search, log-frequency interpolation
 src/catalog.rs  profile brand and correction-signature categories
 src/audio.rs    WASAPI capture → resample → DSP → render (cpal)
 src/app.rs      egui interface and application-state bindings
-src/app/theme.rs  light neumorphic palette, surfaces, icons and widgets
+src/app/theme.rs  bento palette, surfaces, icons, widgets and embedded fonts
 src/analysis.rs UI-thread FFT spectrum and real-input RMS A/B calibration
 src/config.rs   JSON settings
 assets/autoeq.bin.z   packed copy of Wavelet's auto_eq.db
+assets/fonts/         Inter and JetBrains Mono (SIL OFL 1.1)
 assets/logo.svg       normalized application mark
 assets/logo.png       runtime window, tray and interface icon
 assets/logo.ico       Windows executable resource

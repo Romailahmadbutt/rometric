@@ -5,6 +5,8 @@ impl App {
     /// Real product/UI state without device enumeration, tray registration or
     /// audio startup. Only compiled in tests; the production controls are reused.
     fn test_instance(ctx: &egui::Context, cfg: Config) -> Self {
+        // Match production font metrics so geometry tests measure the shipped UI.
+        theme::install_fonts(ctx, theme::bundled_fonts());
         theme::install(ctx, cfg.reduced_motion);
         let db = AutoEq::load();
         let catalog = db.as_ref().ok().map(|db| db.catalog());

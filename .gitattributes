@@ -5,6 +5,7 @@
 # Binary assets must never be converted.
 *.png  binary
 *.ico  binary
+*.ttf  binary
 *.bin  binary
 *.bin.z binary
 *.z    binary

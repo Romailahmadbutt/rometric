@@ -190,6 +190,7 @@ pub struct App {
 impl App {
     pub fn new(cc: &eframe::CreationContext<'_>) -> Self {
         let cfg = Config::load();
+        theme::install_fonts(&cc.egui_ctx, theme::bundled_fonts());
         theme::install(&cc.egui_ctx, cfg.reduced_motion);
         let logo = branding::logo_rgba().ok().map(|logo| {
             cc.egui_ctx.load_texture(
@@ -873,6 +874,7 @@ impl App {
                 egui::RichText::new(branding::APP_NAME)
                     .size(19.0)
                     .strong()
+                    .family(theme::semibold())
                     .color(INK),
             );
             ui.label(egui::RichText::new("Signal Bench").size(11.0).color(MUTED));
@@ -1577,8 +1579,14 @@ impl App {
             };
             ui.add_sized(
                 [title_width, 30.0],
-                egui::Label::new(egui::RichText::new(&title).size(18.0).strong().color(INK))
-                    .truncate(),
+                egui::Label::new(
+                    egui::RichText::new(&title)
+                        .size(18.0)
+                        .strong()
+                        .family(theme::semibold())
+                        .color(INK),
+                )
+                .truncate(),
             )
             .on_hover_text(&title);
             if !compact_header && self.cfg.selected_preset.is_some() {
@@ -1675,6 +1683,7 @@ impl App {
                         }
                         ui.label(
                             egui::RichText::new(format!("{:+.1}", self.sound.gains[index]))
+                                .monospace()
                                 .size(11.5)
                                 .strong()
                                 .color(INK),
@@ -1715,11 +1724,8 @@ impl App {
             {
                 self.mark_dirty();
             }
-            ui.label(
-                egui::RichText::new("Output · log frequency · dBFS · auto-range")
-                    .size(10.5)
-                    .color(MUTED),
-            );
+            ui.add_space(4.0);
+            theme::eyebrow(ui, "Output spectrum · log frequency · auto-range");
         });
         self.layout.spectrum = if self.cfg.spectrum_enabled {
             // Allocate the actual remaining height after headers, wrapping
@@ -2154,16 +2160,16 @@ impl App {
         let enabled = self.pending_preset.is_none();
         let top = egui::TopBottomPanel::top("routing")
             .frame(egui::Frame::none().fill(SHELL).inner_margin(egui::Margin {
-                left: 12.0,
-                right: 12.0,
-                top: 4.0,
-                bottom: 6.0,
+                left: 8.0,
+                right: 8.0,
+                top: 8.0,
+                bottom: 8.0,
             }))
             .show(ctx, |ui| {
                 if !enabled {
                     ui.disable();
                 }
-                theme::card_with(ui, theme::CARD_RADIUS, 8.0, |ui| self.toolbar(ui));
+                theme::card_with(ui, theme::CARD_RADIUS, 10.0, |ui| self.toolbar(ui));
             });
         self.layout.toolbar = top.response.rect;
         let available = ctx.available_rect().size();
@@ -2180,9 +2186,9 @@ impl App {
                 .min_width((width * 0.86).max(200.0))
                 .max_width((width * 1.14).max(220.0))
                 .frame(egui::Frame::none().fill(SHELL).inner_margin(egui::Margin {
-                    left: 12.0,
+                    left: 8.0,
                     right: 4.0,
-                    top: 2.0,
+                    top: 8.0,
                     bottom: 8.0,
                 }))
                 .show(ctx, |ui| {
@@ -2201,8 +2207,8 @@ impl App {
                 .max_width((width * 1.14).max(260.0))
                 .frame(egui::Frame::none().fill(SHELL).inner_margin(egui::Margin {
                     left: 4.0,
-                    right: 12.0,
-                    top: 2.0,
+                    right: 8.0,
+                    top: 8.0,
                     bottom: 8.0,
                 }))
                 .show(ctx, |ui| {
@@ -2221,9 +2227,9 @@ impl App {
         }
         egui::CentralPanel::default()
             .frame(egui::Frame::none().fill(SHELL).inner_margin(egui::Margin {
-                left: if profiles_beside { 4.0 } else { 12.0 },
-                right: if three_columns { 4.0 } else { 12.0 },
-                top: 2.0,
+                left: if profiles_beside { 4.0 } else { 8.0 },
+                right: if three_columns { 4.0 } else { 8.0 },
+                top: 8.0,
                 bottom: 8.0,
             }))
             .show(ctx, |ui| {
